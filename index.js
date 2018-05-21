@@ -192,7 +192,7 @@ const Config = require("./config")
     } else if (Args[0] == `<@${Client.user.id}>` && Args[1] == "ev") {
       if (Message.author.id != Config.Owner) return
       try {
-        let evaled = await eval(Args.slice(1).join(" "))
+        let evaled = await eval(Args.slice(2).join(" "))
         evaled = (typeof evaled == "string") ? Util.inspect(evaled) : evaled
         Message.channel.send(`**\`SUCCESS:\`**\n\`\`\`${evaled}\`\`\``)
       } catch (err) {
