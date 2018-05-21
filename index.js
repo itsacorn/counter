@@ -20,7 +20,8 @@ const Config = require("./config")
     allowDuplicate: Sequelize.BOOLEAN,
     lastSender: Sequelize.STRING,
     allowComments: Sequelize.BOOLEAN,
-    modBypass: Sequelize.BOOLEAN
+    modBypass: Sequelize.BOOLEAN,
+    pin500: Sequelize.BOOLEAN
   })
   
   await DBGuilds.sync()
@@ -37,7 +38,8 @@ const Config = require("./config")
       channelId: 0,
       lastSender: 0,
       allowComments: false,
-      modBypass: false
+      modBypass: false,
+      pin500: false
     })
     Client.user.setPresence({activity: {name: `in ${Client.guilds.size} servers!`}})
   })
@@ -65,7 +67,8 @@ const Config = require("./config")
       channelId: 0,
       lastSender: 0,
       allowComments: false,
-      modBypass: false
+      modBypass: false,
+      pin500: false
     })
 
     let GuildConfig = await DBGuilds.find({
@@ -76,7 +79,7 @@ const Config = require("./config")
 
     if (Message.channel.id == GuildConfig.channelId) {
       function deleteIfNotMod() {
-        if (!GuildConfig.modBypass && !Message.member.hasPermission("MANAGE_MESSAGES", {checkAdmin: true, checkOwner: true}) && Message.member.id != Config.Owner) return Message.delete()
+        if ((!GuildConfig.modBypass && !Message.member.hasPermission("MANAGE_MESSAGES", {checkAdmin: true, checkOwner: true})) || Message.member.id != Config.Owner) return Message.delete()
       }
       if (GuildConfig.allowComments) {
         if (!GuildConfig.allowDuplicate && GuildConfig.lastSender == Message.author.id) return deleteIfNotMod()
@@ -181,8 +184,23 @@ const Config = require("./config")
           })
           break
         }
+        case "pin": {
+          let a3lc = Args[3].toLowerCase()
+          let pin = (a3lc == "yes" || a3lc == "true" || a3lc == "allow" || a3lc == "allowed" || a3lc == "enabled" || a3lc == "enable") ? true : (a3lc == "no" || a3lc == "false" || a3lc == "deny" || a3lc == "denied" || a3lc == "disallow" || a3lc == "disabled" || a3lc == "disable") ? false : undefined
+          if (pin == undefined) return
+          DBGuilds.update({
+            pin500: pin
+          }, {
+            where: {
+              id: Message.guild.id
+            }
+          }).then(() => {
+            Message.channel.send(`Pinning is now **${pin ? "enabled" : "disabled"}**.`)
+          })
+          break
+        }
         default: {
-          Message.channel.send('That is not a valid config option! ```\n@Counter set channel (channel|channelname|channelid) -- Set the counting channel.\n@Counter set current (number) -- Sets the current number.\n@Counter set duplicate (yes|no) -- Allow multiple numbers from a single user.\n@Counter set comments (yes|no) -- Allow users to append a comment to their messages.\n@Counter set bypass (yes|no) -- Allow moderators (Manage Messages permission) to bypass the counting channel restrictions.```')
+          Message.channel.send('That is not a valid config option! ```\n@Counter set channel (channel|channelname|channelid) -- Set the counting channel.\n@Counter set current (number) -- Sets the current number.\n@Counter set duplicate (yes|no) -- Allow multiple numbers from a single user.\n@Counter set comments (yes|no) -- Allow users to append a comment to their messages.\n@Counter set bypass (yes|no) -- Allow moderators (Manage Messages permission) to bypass the counting channel restrictions.\n@Counter set pin (yes|no) -- Pin every 500th number.```')
         }
       }
     } else if (Args[0] == `<@${Client.user.id}>` && Args[1] == "help") {
