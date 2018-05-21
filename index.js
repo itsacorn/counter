@@ -113,7 +113,6 @@ const Config = require("./config")
         } else return deleteIfNotMod()
       }
     }
-
     
     if ((Args[0] == `<@${Client.user.id}>` || Args[0] == `<@!${Client.user.id}>`) && Args[1] == "set") {
       if (!Message.member.hasPermission("MANAGE_GUILD", {checkAdmin: true, checkOwner: true}) && !Message.author.id == Config.Owner) return
