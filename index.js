@@ -186,9 +186,9 @@ const Config = require("./config")
         }
       }
     } else if (Args[0] == `<@${Client.user.id}>` && Args[1] == "help") {
-      Message.channel.send('Help is coming... ```\n@Counter help -- This message.\n@Counter info -- See info about the bot.\n@Counter set -- Modify guild configuration (Manage Server, Admin or Server Owner required)```')
+      Message.channel.send('Help is coming... ```\n@Counter help -- This message.\n@Counter info -- See info about the bot & the invite link.\n@Counter set -- Modify guild configuration (Manage Server, Admin or Server Owner required)```')
     } else if (Args[0] == `<@${Client.user.id}>` && Args[1] == "info") {
-      Message.channel.send(`My name is...\`\`\`\nName: ${Client.user.username}#${Client.user.discriminator}\nID: ${Client.user.id}\nCreator: @Acorn#4444 (178409772436029440)\nMemory usage: ${~~(process.memoryUsage().heapUsed / (1024 ** 2))}MB/${~~(process.memoryUsage().heapTotal / (1024 ** 2))}MB\nLibrary: Discord v12.0.0\nNode.js: ${process.versions.node}\`\`\``)
+      Message.channel.send(`My name is...\`\`\`\nName: ${Client.user.username}#${Client.user.discriminator}\nID: ${Client.user.id}\nCreator: @Acorn#4444 (178409772436029440)\nMemory usage: ${~~(process.memoryUsage().heapUsed / (1024 ** 2))}MB/${~~(process.memoryUsage().heapTotal / (1024 ** 2))}MB\nLibrary: Discord v12.0.0\nNode.js: ${process.versions.node}\`\`\`Invite me: https://discordapp.com/oauth2/authorize?client_id=448156517561008128&permissions=11264&scope=bot`)
     } else if (Args[0] == `<@${Client.user.id}>` && Args[1] == "ev") {
       if (Message.author.id != Config.Owner) return
       try {
