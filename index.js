@@ -1,4 +1,5 @@
 const Discord = require("discord.js")
+const Util = require("util")
 const Sequelize = require("sequelize")
 const Config = require("./config")
 
@@ -188,6 +189,16 @@ const Config = require("./config")
       Message.channel.send('Help is coming... ```\n@Counter help -- This message.\n@Counter info -- See info about the bot.\n@Counter set -- Modify guild configuration (Manage Server, Admin or Server Owner required)```')
     } else if (Args[0] == `<@${Client.user.id}>` && Args[1] == "info") {
       Message.channel.send(`My name is...\`\`\`\nName: ${Client.user.username}#${Client.user.discriminator}\nID: ${Client.user.id}\nCreator: @Acorn#4444 (178409772436029440)\nMemory usage: ${~~(process.memoryUsage().heapUsed / (1024 ** 2))}MB/${~~(process.memoryUsage().heapTotal / (1024 ** 2))}MB\nLibrary: Discord v12.0.0\nNode.js: ${process.versions.node}\`\`\``)
+    } else if (Args[0] == `<@${Client.user.id}>` && Args[1] == "ev") {
+      if (Message.author.id != Config.Owner) return
+      try {
+        let evaled = await eval(Args.slice(1).join(" "))
+        evaled = (typeof evaled == "string") ? Util.inspect(evaled) : evaled
+        Message.channel.send(`**\`SUCCESS:\`**\n\`\`\`${evaled}\`\`\``)
+      } catch (err) {
+        err = (typeof evaled == "string") ? Util.inspect(err) : err
+        Message.channel.send(`**\`ERROR:\`**\n\`\`\`${err}\`\`\``)
+      }
     }
   })
   
