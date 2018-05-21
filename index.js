@@ -76,10 +76,10 @@ const Config = require("./config")
 
     if (Message.channel.id == GuildConfig.channelId) {
       function deleteIfNotMod() {
-        if (!GuildConfig.modBypass && Message.member.hasPermission("MANAGE_MESSAGES", {checkAdmin: true, checkOwner: true}) && Message.member.id != Config.Owner) return Message.delete()
+        if (!GuildConfig.modBypass && !Message.member.hasPermission("MANAGE_MESSAGES", {checkAdmin: true, checkOwner: true}) && Message.member.id != Config.Owner) return Message.delete()
       }
       if (GuildConfig.allowComments) {
-        if (!GuildConfig.allowDuplicate && GuildConfig.lastSender == Message.channel.id) return deleteIfNotMod()
+        if (!GuildConfig.allowDuplicate && GuildConfig.lastSender == Message.author.id) return deleteIfNotMod()
         if (Args[0] == GuildConfig.currentNumber + 1) {
           DBGuilds.update({
             currentNumber: GuildConfig.currentNumber + 1,
@@ -91,7 +91,7 @@ const Config = require("./config")
           })
         } else return deleteIfNotMod()
       } else {
-        if (!GuildConfig.allowDuplicate && GuildConfig.lastSender == Message.channel.id) return deleteIfNotMod()
+        if (!GuildConfig.allowDuplicate && GuildConfig.lastSender == Message.author.id) return deleteIfNotMod()
         if (Message.content == GuildConfig.currentNumber + 1) {
           DBGuilds.update({
             currentNumber: GuildConfig.currentNumber + 1,
