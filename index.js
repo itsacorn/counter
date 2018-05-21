@@ -182,7 +182,7 @@ const Config = require("./config")
           break
         }
         default: {
-          Message.channel.send('That is not a valid config option! ```\n@Counter set channel (channel|channelname|channelid) -- Set the counting channel.\n@Counter set number (number) -- Sets the current number.\n@Counter set duplicate (yes|no) -- Allow multiple numbers from a single user.\n@Counter set comments (yes|no) -- Allow users to append a comment to their messages.\n@Counter set bypass (yes|no) -- Allow moderators (Manage Messages permission) to bypass the counting channel restrictions.```')
+          Message.channel.send('That is not a valid config option! ```\n@Counter set channel (channel|channelname|channelid) -- Set the counting channel.\n@Counter set current (number) -- Sets the current number.\n@Counter set duplicate (yes|no) -- Allow multiple numbers from a single user.\n@Counter set comments (yes|no) -- Allow users to append a comment to their messages.\n@Counter set bypass (yes|no) -- Allow moderators (Manage Messages permission) to bypass the counting channel restrictions.```')
         }
       }
     } else if (Args[0] == `<@${Client.user.id}>` && Args[1] == "help") {
