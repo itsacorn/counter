@@ -114,7 +114,8 @@ const Config = require("./config")
       }
     }
 
-    if (Args[0] == `<@${Client.user.id}>` && Args[1] == "set") {
+    
+    if ((Args[0] == `<@${Client.user.id}>` || Args[0] == `<@!${Client.user.id}>`) && Args[1] == "set") {
       if (!Message.member.hasPermission("MANAGE_GUILD", {checkAdmin: true, checkOwner: true}) && !Message.author.id == Config.Owner) return
       switch ((Args[2]) ? Args[2].toLowerCase() : Args[2]) {
         case "channel": {
@@ -209,11 +210,11 @@ const Config = require("./config")
           Message.channel.send('That is not a valid config option! ```\n@Counter set channel (channel|channelname|channelid) -- Set the counting channel.\n@Counter set current (number) -- Sets the current number.\n@Counter set duplicate (yes|no) -- Allow multiple numbers from a single user.\n@Counter set comments (yes|no) -- Allow users to append a comment to their messages.\n@Counter set pin (yes|no) -- Pin every 500th number.\n@Counter set bypass (yes|no) -- Allow moderators (Manage Messages permission) to bypass the counting channel restrictions.```')
         }
       }
-    } else if (Args[0] == `<@${Client.user.id}>` && Args[1] == "help") {
+    } else if ((Args[0] == `<@${Client.user.id}>` || Args[0] == `<@!${Client.user.id}>`) && Args[1] == "help") {
       Message.channel.send('Help is coming... ```\n@Counter help -- This message.\n@Counter info -- See info about the bot & the invite link.\n@Counter set -- Modify guild configuration (Manage Server, Admin or Server Owner required)```')
-    } else if (Args[0] == `<@${Client.user.id}>` && Args[1] == "info") {
+    } else if ((Args[0] == `<@${Client.user.id}>` || Args[0] == `<@!${Client.user.id}>`) && Args[1] == "info") {
       Message.channel.send(`My name is...\`\`\`\nName: ${Client.user.username}#${Client.user.discriminator}\nID: ${Client.user.id}\nCreator: @Acorn#4444 (178409772436029440)\nMemory usage: ${~~(process.memoryUsage().heapUsed / (1024 ** 2))}MB/${~~(process.memoryUsage().heapTotal / (1024 ** 2))}MB\nLibrary: Discord v12.0.0\nNode.js: ${process.versions.node}\`\`\`Invite me: https://discordapp.com/oauth2/authorize?client_id=448156517561008128&permissions=11264&scope=bot`)
-    } else if (Args[0] == `<@${Client.user.id}>` && Args[1] == "ev") {
+    } else if ((Args[0] == `<@${Client.user.id}>` || Args[0] == `<@!${Client.user.id}>`) && Args[1] == "ev") {
       if (Message.author.id != Config.Owner) return
       try {
         let evaled = await eval(Args.slice(2).join(" "))
