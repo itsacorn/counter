@@ -92,7 +92,7 @@ const Config = require("./config")
               id: Message.guild.id
             }
           })
-          if (GuildConfig.pin500 && GuildConfig.currentNumber % 500 == 0) {
+          if (GuildConfig.pin500 && (GuildConfig.currentNumber % 500 - 1) == 0) {
             Message.pin()
           }
         } else return deleteIfNotMod()
@@ -107,7 +107,8 @@ const Config = require("./config")
               id: Message.guild.id
             }
           })
-          if (GuildConfig.pin500 && GuildConfig.currentNumber % 500 == 0) {
+          
+          if (GuildConfig.pin500 && (GuildConfig.currentNumber % 500 - 1) == 0) {
             Message.pin()
           }
         } else return deleteIfNotMod()
