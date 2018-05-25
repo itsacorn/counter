@@ -77,6 +77,8 @@ const Config = require("./config")
       }
     })
 
+    if (!Message.member) Message.member = await Message.guild.members.fetch({id: Message.author.id})
+
     if (Message.channel.id == GuildConfig.channelId) {
       function deleteIfNotMod() {
         if ((!GuildConfig.modBypass && !Message.member.hasPermission("MANAGE_MESSAGES", {checkAdmin: true, checkOwner: true})) || Message.member.id != Config.Owner) return Message.delete()
